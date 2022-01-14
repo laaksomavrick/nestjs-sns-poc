@@ -1,8 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { QueueMessageHandler } from "./sqs/queue-message-handler";
-// import { Queue } from "./sqs/sqs.decorator";
+import { Queue } from "./sqs";
+import config from "./config";
 
 @Injectable()
+@Queue({
+    queueUrl: config.get('sqs.queueUrl'),
+    region: config.get('sqs.region'),
+    accessKeyId: config.get('sqs.accessKeyId'),
+    secretAccessKey: config.get('sqs.secretAccessKey')
+})
 export class TestMessageHandler extends QueueMessageHandler {
 
     public onMessage(data: AWS.SQS.Message): Promise<void> {

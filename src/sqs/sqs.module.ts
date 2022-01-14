@@ -19,7 +19,9 @@ export class SqsModule implements OnModuleInit {
 
     for (const queueHandler of queueHandlers)
     {
-        const consumer = sqsConsumerFactory(queueHandler);
+        const handler = queueHandler.handler;
+        const config = queueHandler.config; 
+        const consumer = sqsConsumerFactory(handler, config);
         consumer.start();
     }
   }

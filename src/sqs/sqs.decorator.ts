@@ -1,18 +1,27 @@
-// import { SetMetadata } from "@nestjs/common";
+import { SetMetadata } from "@nestjs/common";
+import { QueueMessageHandler } from "./queue-message-handler";
 
-// export const SQS_MESSAGE_HANDLER = "SQS_MESSAGE_HANDLER";
+export const SQS_QUEUE_HANDLER = "SQS_QUEUE_HANDLER";
 
-// export interface SqsMessageHandlerMetadataConfiguration {
-//   target: string;
-// }
+export interface QueueConfig {
+    queueUrl: string;
+    region: string;
+    accessKeyId: string;
+    secretAccessKey: string;
+}
 
-// export const Queue = () => {
-//   return (target: any) => {
-//     SetMetadata<string, SqsMessageHandlerMetadataConfiguration>(
-//         SQS_MESSAGE_HANDLER,
-//       {
-//         target: target.constructor.name,
-//       },
-//     )(target,);
-//   };
-// };
+export interface QueueMetadataConfig extends QueueConfig {
+  target: Function;
+}
+
+export const Queue = (config: QueueConfig) => {
+  return (target: Function) => {
+    SetMetadata<string, QueueMetadataConfig>(
+      SQS_QUEUE_HANDLER,
+      {
+        ...config,
+        target,
+      }
+    )(target.prototype)
+  };
+};
