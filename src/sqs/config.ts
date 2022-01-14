@@ -2,7 +2,6 @@ import * as convict from 'convict'
 import * as dotenv from 'dotenv'
 import { join } from 'path'
 
-
 dotenv.config()
 const defaultEnv = 'production'
 const env = process.env.NODE_ENV || defaultEnv
