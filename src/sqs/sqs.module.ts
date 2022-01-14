@@ -12,17 +12,16 @@ import { SqsExplorer } from "./sqs.explorer";
 export class SqsModule implements OnModuleInit {
   constructor(
     private readonly explorer: SqsExplorer,
-  ) {}
+  ) { }
 
   async onModuleInit() {
     const queueHandlers = this.explorer.explore();
 
-    for (const queueHandler of queueHandlers)
-    {
-        const handler = queueHandler.handler;
-        const config = queueHandler.config; 
-        const consumer = sqsConsumerFactory(handler, config);
-        consumer.start();
+    for (const queueHandler of queueHandlers) {
+      const handler = queueHandler.handler;
+      const config = queueHandler.config;
+      const consumer = sqsConsumerFactory(handler, config);
+      consumer.start();
     }
   }
 }

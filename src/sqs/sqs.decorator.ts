@@ -1,13 +1,12 @@
 import { SetMetadata } from "@nestjs/common";
-import { QueueMessageHandler } from "./queue-message-handler";
 
 export const SQS_QUEUE_HANDLER = "SQS_QUEUE_HANDLER";
 
 export interface QueueConfig {
-    queueUrl: string;
-    region: string;
-    accessKeyId: string;
-    secretAccessKey: string;
+  queueUrl: string;
+  region: string;
+  accessKeyId: string;
+  secretAccessKey: string;
 }
 
 export interface QueueMetadataConfig extends QueueConfig {

@@ -1,8 +1,7 @@
-
-import { Consumer } from 'sqs-consumer';
 import * as AWS from 'aws-sdk';
-import { QueueMessageHandler } from './queue-message-handler';
+import { Consumer } from 'sqs-consumer';
 import { QueueConfig } from '.';
+import { QueueMessageHandler } from './queue-message-handler';
 
 export const sqsConsumerFactory = (messageHandler: QueueMessageHandler, config: QueueConfig) => {
     const sqsConsumer = Consumer.create({

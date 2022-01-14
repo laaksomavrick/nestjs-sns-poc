@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { DiscoveryService } from "@nestjs/core";
-import { MetadataScanner } from "@nestjs/core/metadata-scanner";
 import { QueueConfig, SQS_QUEUE_HANDLER } from ".";
 import { QueueMessageHandler } from "./queue-message-handler";
 
@@ -13,15 +12,13 @@ export interface SqsMessageHandler {
 export class SqsExplorer {
     constructor(
         private readonly discoveryService: DiscoveryService,
-        private readonly metadataScanner: MetadataScanner,
     ) { }
 
     /**
-     * Find all classes marked with @Queue
+     * Find all classes marked with @Queue that are derived from QueueMessageHandler
      */
     public explore(): SqsMessageHandler[] {
 
-        // Find all providers in the modules
         const providers = this.discoveryService.getProviders();
 
         const queueMessageHandlers = providers.map((wrapper) => {
