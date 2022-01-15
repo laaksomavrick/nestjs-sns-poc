@@ -1,15 +1,15 @@
 import * as AWS from 'aws-sdk';
 import { Consumer } from 'sqs-consumer';
 import { QueueConfig } from '.';
-import { QueueMessageHandler } from './queue-message-handler';
 
 export const sqsConsumerFactory = (
-  messageHandler: QueueMessageHandler,
   config: QueueConfig,
+  onMessage: (message: AWS.SQS.Message) => Promise<void>,
+  onError: (err: Error) => Promise<void>,
 ) => {
   const sqsConsumer = Consumer.create({
     queueUrl: config.queueUrl,
-    handleMessage: messageHandler.onMessage,
+    handleMessage: onMessage,
     sqs: new AWS.SQS({
       region: config.region,
       accessKeyId: config.accessKeyId,
@@ -17,9 +17,9 @@ export const sqsConsumerFactory = (
     }),
   });
 
-  sqsConsumer.on('error', messageHandler.onError);
-  sqsConsumer.on('processing_error', messageHandler.onProcessingError);
-  sqsConsumer.on('timeout_error', messageHandler.onTimeout);
+  sqsConsumer.on('error', onError);
+  sqsConsumer.on('processing_error', onError);
+  sqsConsumer.on('timeout_error', onError);
 
   return sqsConsumer;
 };

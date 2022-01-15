@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { QueueMessageHandler } from './sqs/queue-message-handler';
-import { Queue } from './sqs';
+import { OnError, OnMessage, Queue } from './sqs';
 import config from './config';
 
 @Injectable()
@@ -10,23 +9,15 @@ import config from './config';
   accessKeyId: config.get('sqs.accessKeyId'),
   secretAccessKey: config.get('sqs.secretAccessKey'),
 })
-export class TestMessageHandler extends QueueMessageHandler {
+export class TestMessageHandler {
+  @OnMessage()
   public onMessage(data: AWS.SQS.Message): Promise<void> {
     console.log(data);
     return null;
   }
 
+  @OnError()
   public onError(err: Error): Promise<void> {
-    console.log(err.message);
-    return null;
-  }
-
-  public onProcessingError(err: Error): Promise<void> {
-    console.log(err.message);
-    return null;
-  }
-
-  public onTimeout(err: Error): Promise<void> {
     console.log(err.message);
     return null;
   }

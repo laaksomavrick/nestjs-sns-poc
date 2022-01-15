@@ -13,12 +13,13 @@ export class SqsModule implements OnModuleInit {
   constructor(private readonly explorer: SqsExplorer) {}
 
   async onModuleInit() {
-    const queueHandlers = this.explorer.explore();
+    const queues = this.explorer.explore();
 
-    for (const queueHandler of queueHandlers) {
-      const handler = queueHandler.handler;
-      const config = queueHandler.config;
-      const consumer = sqsConsumerFactory(handler, config);
+    for (const queue of queues) {
+      const config = queue.config;
+      const onMessage = queue.onMessage;
+      const onError = queue.onError;
+      const consumer = sqsConsumerFactory(config, onMessage, onError);
       consumer.start();
     }
   }
