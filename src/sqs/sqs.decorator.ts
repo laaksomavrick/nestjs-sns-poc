@@ -1,6 +1,6 @@
-import { SetMetadata } from "@nestjs/common";
+import { SetMetadata } from '@nestjs/common';
 
-export const SQS_QUEUE_HANDLER = "SQS_QUEUE_HANDLER";
+export const SQS_QUEUE_HANDLER = 'SQS_QUEUE_HANDLER';
 
 export interface QueueConfig {
   queueUrl: string;
@@ -15,12 +15,9 @@ export interface QueueMetadataConfig extends QueueConfig {
 
 export const Queue = (config: QueueConfig) => {
   return (target: Function) => {
-    SetMetadata<string, QueueMetadataConfig>(
-      SQS_QUEUE_HANDLER,
-      {
-        ...config,
-        target,
-      }
-    )(target.prototype)
+    SetMetadata<string, QueueMetadataConfig>(SQS_QUEUE_HANDLER, {
+      ...config,
+      target,
+    })(target.prototype);
   };
 };

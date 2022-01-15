@@ -1,8 +1,8 @@
-import { Module, OnModuleInit } from "@nestjs/common";
-import { DiscoveryService } from "@nestjs/core";
-import { MetadataScanner } from "@nestjs/core/metadata-scanner";
-import { sqsConsumerFactory } from "./sqs-consumer.factory";
-import { SqsExplorer } from "./sqs.explorer";
+import { Module, OnModuleInit } from '@nestjs/common';
+import { DiscoveryService } from '@nestjs/core';
+import { MetadataScanner } from '@nestjs/core/metadata-scanner';
+import { sqsConsumerFactory } from './sqs-consumer.factory';
+import { SqsExplorer } from './sqs.explorer';
 
 @Module({
   imports: [],
@@ -10,9 +10,7 @@ import { SqsExplorer } from "./sqs.explorer";
   exports: [],
 })
 export class SqsModule implements OnModuleInit {
-  constructor(
-    private readonly explorer: SqsExplorer,
-  ) { }
+  constructor(private readonly explorer: SqsExplorer) {}
 
   async onModuleInit() {
     const queueHandlers = this.explorer.explore();
