@@ -1,8 +1,18 @@
-import { SetMetadata } from '@nestjs/common';
+import { Injectable, InjectableOptions, SetMetadata } from '@nestjs/common';
 
 export const SQS_QUEUE_HANDLER = 'SQS_QUEUE_HANDLER';
 export const SQS_QUEUE_ON_MESSAGE = 'SQS_QUEUE_ON_MESSAGE';
 export const SQS_QUEUE_ON_ERROR = 'SQS_QUEUE_ON_ERROR';
+
+export const Queue = (
+  queueOptions: QueueConfig,
+  injectableOptions?: InjectableOptions,
+) => {
+  return (target: Function) => {
+    QueueConfig(queueOptions)(target);
+    Injectable(injectableOptions)(target);
+  };
+};
 
 export interface QueueConfig {
   queueUrl: string;
@@ -11,13 +21,13 @@ export interface QueueConfig {
   secretAccessKey: string;
 }
 
-export interface QueueMetadataConfig extends QueueConfig {
+export interface QueueConfigMetadataConfig extends QueueConfig {
   target: Function;
 }
 
-export const Queue = (config: QueueConfig) => {
+export const QueueConfig = (config: QueueConfig) => {
   return (target: Function) => {
-    SetMetadata<string, QueueMetadataConfig>(SQS_QUEUE_HANDLER, {
+    SetMetadata<string, QueueConfigMetadataConfig>(SQS_QUEUE_HANDLER, {
       ...config,
       target,
     })(target.prototype);

@@ -1,2 +1,2 @@
-export * from './sqs.decorator';
+export * from './sqs.decorators';
 export * from './sqs.module';

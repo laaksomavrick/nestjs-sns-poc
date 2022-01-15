@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DiscoveryService, MetadataScanner } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { prototype } from 'events';
 import {
   QueueConfig,
   SQS_QUEUE_HANDLER,

@@ -1,8 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import { OnError, OnMessage, Queue } from './sqs';
 import config from './config';
 
-@Injectable()
 @Queue({
   queueUrl: config.get('sqs.queueUrl'),
   region: config.get('sqs.region'),
